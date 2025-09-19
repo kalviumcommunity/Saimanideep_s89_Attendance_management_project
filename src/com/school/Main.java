@@ -2,30 +2,27 @@ package com.school;
 
 public class Main {
     public static void main(String[] args) {
-        // Create and set student details
-        Student[] students = new Student[2];
-        students[0] = new Student();
-        students[0].setDetails(1, "Madhu");
-        students[1] = new Student();
-        students[1].setDetails(2, "Hari");
+        // Create students
+        Student s1 = new Student(1, "Madhu", 20);
+        Student s2 = new Student(2, "Hari", 21);
 
-        // Create and set course details
-        Course[] courses = new Course[2];
-        courses[0] = new Course();
-        courses[0].setDetails("1", "Java");
-        courses[1] = new Course();
-        courses[1].setDetails("2", "Python");
+        // Create teacher
+        Teacher t1 = new Teacher("Anil", 35, "Mathematics");
+
+        // Create staff
+        Staff staff1 = new Staff("Ravi", 40, "Clerk");
 
         // Display student details
         System.out.println("Students:");
-        for (Student s : students) {
-            s.displayDetails();
-        }
+        s1.displayInfo();
+        s2.displayInfo();
 
-        // Display course details
-        System.out.println("Courses:");
-        for (Course c : courses) {
-            c.displayDetails();
-        }
+        // Display teacher details
+        System.out.println("\nTeacher:");
+        t1.displayInfo();
+
+        // Display staff details
+        System.out.println("\nStaff:");
+        staff1.displayInfo();
     }
 }
