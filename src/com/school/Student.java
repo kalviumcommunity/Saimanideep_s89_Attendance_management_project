@@ -1,15 +1,24 @@
 package com.school;
 
-public class Student {
-    int studentId;
-    String studentName;
+public class Student extends Person {
+    private int studentId;
 
-    public void setDetails(int id, String name) {
-        this.studentId = id;
-        this.studentName = name;
+    public Student(int studentId, String name, int age) {
+        super(name, age);
+        this.studentId = studentId;
     }
 
-    public void displayDetails() {
-        System.out.println("Student ID: " + this.studentId + ", Name: " + this.studentName);
+    public int getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("Student ID: " + studentId);
+        super.displayInfo();
     }
 }
