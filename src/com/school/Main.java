@@ -49,7 +49,22 @@ public class Main {
         List<Course> courses = Arrays.asList(c1, c2);
         FileStorageService.saveToFile(courses, "courses.txt");
 
-        // Build attendance records polymorphically and display
+        // Demonstrate AttendanceService overloaded methods
+        AttendanceService attendanceService = new AttendanceService(students);
+
+        // Marking via id, name, object, bulk
+        attendanceService.markPresent(2); // mark Hari by id
+        attendanceService.markPresent("Madhu"); // mark Madhu by name (idempotent)
+        attendanceService.markPresent(s1); // mark via object
+        attendanceService.markPresent(Arrays.asList(1, 2)); // bulk mark
+
+        // Query different ways
+        System.out.println("\nAttendance queries (overloaded):");
+        System.out.println("By id 1: " + attendanceService.queryAttendance(1));
+        System.out.println("By name 'Hari': " + attendanceService.queryAttendance("Hari"));
+        System.out.println("By object s1: " + attendanceService.queryAttendance(s1));
+
+        // Build attendance records polymorphically and display (reflecting service changes)
         List<AttendanceRecord> records = new ArrayList<>();
         for (Person p : directory) {
             records.add(new AttendanceRecord(p));
@@ -61,7 +76,6 @@ public class Main {
         }
 
         // Save attendance records to Attendance_log.txt using FileStorageService
-        // FileStorageService expects Storable; AttendanceRecord implements Storable
         FileStorageService.saveToFile(records, "Attendance_log.txt");
     }
 }
