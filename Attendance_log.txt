@@ -1,2 +1,4 @@
-Madhu: Present
-Hari: Absent
+Madhu,20,Present
+Hari,21,Absent
+Anil,35,N/A
+Ravi,40,N/A

@@ -22,21 +22,22 @@ public class Main {
         Course c2 = new Course();
         c2.setDetails("2", "Python");
 
-        // Display student details
-        System.out.println("Students:");
-        s1.displayInfo();
-        s2.displayInfo();
+        // Build a polymorphic school directory
+        List<Person> directory = new ArrayList<>();
+        directory.add(s1);
+        directory.add(s2);
+        directory.add(t1);
+        directory.add(staff1);
 
-        // Display teacher details
-        System.out.println("\nTeacher:");
-        t1.displayInfo();
-
-        // Display staff details
-        System.out.println("\nStaff:");
-        staff1.displayInfo();
+        // Display School Directory (polymorphic)
+        System.out.println("School Directory:");
+        for (Person p : directory) {
+            p.displayInfo(); // runtime polymorphism
+            System.out.println();
+        }
 
         // Display course details
-        System.out.println("\nCourses:");
+        System.out.println("Courses:");
         c1.displayDetails();
         c2.displayDetails();
 
@@ -48,17 +49,19 @@ public class Main {
         List<Course> courses = Arrays.asList(c1, c2);
         FileStorageService.saveToFile(courses, "courses.txt");
 
-        // Save attendance log to Attendance_log.txt
-        List<String> attendanceLog = new ArrayList<>();
-        for (Student s : students) {
-            attendanceLog.add(s.getName() + ": " + (s.isPresent() ? "Present" : "Absent"));
+        // Build attendance records polymorphically and display
+        List<AttendanceRecord> records = new ArrayList<>();
+        for (Person p : directory) {
+            records.add(new AttendanceRecord(p));
         }
-        try (java.io.FileWriter writer = new java.io.FileWriter("Attendance_log.txt", false)) {
-            for (String log : attendanceLog) {
-                writer.write(log + System.lineSeparator());
-            }
-        } catch (Exception e) {
-            System.out.println("Error writing attendance log");
+
+        System.out.println("\nAttendance Log:");
+        for (AttendanceRecord r : records) {
+            r.displayRecord();
         }
+
+        // Save attendance records to Attendance_log.txt using FileStorageService
+        // FileStorageService expects Storable; AttendanceRecord implements Storable
+        FileStorageService.saveToFile(records, "Attendance_log.txt");
     }
 }
