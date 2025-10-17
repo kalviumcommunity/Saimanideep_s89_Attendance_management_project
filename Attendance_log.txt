@@ -1,4 +1,4 @@
 Madhu,20,Present
-Hari,21,Absent
+Hari,21,Present
 Anil,35,N/A
 Ravi,40,N/A
