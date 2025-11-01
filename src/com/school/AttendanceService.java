@@ -6,7 +6,7 @@ public class AttendanceService {
     private Map<Integer, Student> studentsById = new HashMap<>();
     private Map<String, Student> studentsByName = new HashMap<>();
 
-    public AttendanceService(Collection<Student> students) {
+    public AttendanceService(List<Student> students) {
         for (Student s : students) {
             studentsById.put(s.getStudentId(), s);
             studentsByName.put(s.getName(), s);

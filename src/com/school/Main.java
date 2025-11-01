@@ -4,17 +4,22 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Create students
+        // Create registration service
+        RegistrationService registrationService = new RegistrationService();
+
+        // Create and register students
         Student s1 = new Student(1, "Madhu", 20);
         Student s2 = new Student(2, "Hari", 21);
-        s1.markPresent(); // Mark Madhu as present
-        s2.markAbsent();  // Mark Hari as absent
+        registrationService.registerStudent(s1);
+        registrationService.registerStudent(s2);
 
-        // Create teacher
+        // Create and register teacher
         Teacher t1 = new Teacher("Anil", 35, "Mathematics");
+        registrationService.registerTeacher(t1);
 
-        // Create staff
+        // Create and register staff
         Staff staff1 = new Staff("Ravi", 40, "Clerk");
+        registrationService.registerStaff(staff1);
 
         // Create courses
         Course c1 = new Course();
@@ -22,16 +27,9 @@ public class Main {
         Course c2 = new Course();
         c2.setDetails("2", "Python");
 
-        // Build a polymorphic school directory
-        List<Person> directory = new ArrayList<>();
-        directory.add(s1);
-        directory.add(s2);
-        directory.add(t1);
-        directory.add(staff1);
-
         // Display School Directory (polymorphic)
         System.out.println("School Directory:");
-        for (Person p : directory) {
+        for (Person p : registrationService.getAllPersons()) {
             p.displayInfo(); // runtime polymorphism
             System.out.println();
         }
@@ -41,18 +39,18 @@ public class Main {
         c1.displayDetails();
         c2.displayDetails();
 
-        // Save students to students.txt
-        List<Student> students = Arrays.asList(s1, s2);
-        FileStorageService.saveToFile(students, "students.txt");
-
         // Save courses to courses.txt
         List<Course> courses = Arrays.asList(c1, c2);
         FileStorageService.saveToFile(courses, "courses.txt");
 
-        // Demonstrate AttendanceService overloaded methods
-        AttendanceService attendanceService = new AttendanceService(students);
+        // Create attendance service with registered students
+        AttendanceService attendanceService = new AttendanceService(registrationService.getStudents());
 
-        // Marking via id, name, object, bulk
+        // Mark initial attendance
+        s1.markPresent(); // Mark Madhu as present
+        s2.markAbsent();  // Mark Hari as absent
+
+        // Demonstrate AttendanceService overloaded methods
         attendanceService.markPresent(2); // mark Hari by id
         attendanceService.markPresent("Madhu"); // mark Madhu by name (idempotent)
         attendanceService.markPresent(s1); // mark via object
@@ -64,9 +62,9 @@ public class Main {
         System.out.println("By name 'Hari': " + attendanceService.queryAttendance("Hari"));
         System.out.println("By object s1: " + attendanceService.queryAttendance(s1));
 
-        // Build attendance records polymorphically and display (reflecting service changes)
+        // Build attendance records polymorphically and display
         List<AttendanceRecord> records = new ArrayList<>();
-        for (Person p : directory) {
+        for (Person p : registrationService.getAllPersons()) {
             records.add(new AttendanceRecord(p));
         }
 
@@ -75,7 +73,8 @@ public class Main {
             r.displayRecord();
         }
 
-        // Save attendance records to Attendance_log.txt using FileStorageService
+        // Save all data using services
+        registrationService.saveAllToFiles();
         FileStorageService.saveToFile(records, "Attendance_log.txt");
     }
 }
